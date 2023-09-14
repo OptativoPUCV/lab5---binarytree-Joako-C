@@ -105,6 +105,7 @@ TreeNode* minimum(TreeNode* x) {
 void removeNode(TreeMap * tree, TreeNode* node) {
     if (tree == NULL || node == NULL || tree->root == NULL) return;
 
+    // Caso 1: El nodo es un nodo hoja (no tiene hijos).
     if (node->left == NULL && node->right == NULL) {
         if (node->parent != NULL) {
             if (node->parent->left == node) {
@@ -113,6 +114,7 @@ void removeNode(TreeMap * tree, TreeNode* node) {
                 node->parent->right = NULL;
             }
         } else {
+            // El nodo es la raíz del árbol.
             tree->root = NULL;
         }
         free(node->pair->key);
@@ -121,6 +123,7 @@ void removeNode(TreeMap * tree, TreeNode* node) {
         free(node);
     }
 
+    // Caso 2: El nodo tiene un hijo.
     else if (node->left == NULL || node->right == NULL) {
         TreeNode* child = (node->left != NULL) ? node->left : node->right;
 
@@ -132,6 +135,7 @@ void removeNode(TreeMap * tree, TreeNode* node) {
             }
             child->parent = node->parent;
         } else {
+            // El nodo es la raíz del árbol.
             tree->root = child;
             child->parent = NULL;
         }
@@ -142,15 +146,27 @@ void removeNode(TreeMap * tree, TreeNode* node) {
         free(node);
     }
 
+    // Caso 3: El nodo tiene dos hijos.
     else {
         TreeNode* successor = minimum(node->right);
 
         node->pair->key = successor->pair->key;
         node->pair->value = successor->pair->value;
-      
-        removeNode(tree, successor);
+
+        // Actualiza el puntero del padre del sucesor.
+        if (successor->parent->left == successor) {
+            successor->parent->left = NULL;
+        } else {
+            successor->parent->right = NULL;
+        }
+
+        free(successor->pair->key);
+        free(successor->pair->value);
+        free(successor->pair);
+        free(successor);
     }
 }
+
 
 
 void eraseTreeMap(TreeMap * tree, void* key){
