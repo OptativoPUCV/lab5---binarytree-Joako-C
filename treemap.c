@@ -62,12 +62,13 @@ void insertTreeMap(TreeMap* tree, void* key, void* value) {
     }
 
     TreeNode* current = tree->root;
+    TreeNode* parent = NULL;
 
     while (current != NULL) {
+        parent = current;
         int comparison = tree->lower_than(key, current->pair->key);
 
         if (comparison == 0) {
-            // La clave ya existe, actualizamos el valor.
             current->pair->value = value;
             free(new_node->pair->key);
             free(new_node->pair->value);
@@ -75,24 +76,22 @@ void insertTreeMap(TreeMap* tree, void* key, void* value) {
             free(new_node);
             return;
         } else if (comparison < 0) {
-            if (current->left == NULL) {
-                current->left = new_node;
-                new_node->parent = current;
-                tree->current = new_node;
-                return;
-            }
             current = current->left;
         } else {
-            if (current->right == NULL) {
-                current->right = new_node;
-                new_node->parent = current;
-                tree->current = new_node;
-                return;
-            }
             current = current->right;
         }
     }
+
+    int comparison = tree->lower_than(key, parent->pair->key);
+    if (comparison < 0) {
+        parent->left = new_node;
+    } else {
+        parent->right = new_node;
+    }
+    new_node->parent = parent;
+    tree->current = new_node;
 }
+
 
 
 
