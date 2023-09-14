@@ -232,3 +232,25 @@ Thu 14 Sep 2023 03:42:12 AM UTC:
  tests:  15|4
 total_score: 25/70
 db0a04b
+Thu 14 Sep 2023 03:43:02 AM UTC: 
+ treemap.c | 34 ++++++++++++----------------------
+ 1 file changed, 12 insertions(+), 22 deletions(-)
+In file included from test.c:4:
+treemap.c: In function ‘removeNode’:
+treemap.c:141:31: error: implicit declaration of function ‘minimum’ [-Werror=implicit-function-declaration]
+  141 |         TreeNode* successor = minimum(node->right);
+      |                               ^~~~~~~
+treemap.c:141:31: error: initialization of ‘TreeNode *’ from ‘int’ makes pointer from integer without a cast [-Werror=int-conversion]
+test.c: In function ‘minimum_test’:
+test.c:225:19: error: initialization of ‘TreeNode *’ from ‘int’ makes pointer from integer without a cast [-Werror=int-conversion]
+  225 |     TreeNode* n = minimum(tree->root);
+      |                   ^~~~~~~
+test.c:239:7: error: assignment to ‘TreeNode *’ from ‘int’ makes pointer from integer without a cast [-Werror=int-conversion]
+  239 |     n = minimum(tree->root->left);
+      |       ^
+test.c:250:7: error: assignment to ‘TreeNode *’ from ‘int’ makes pointer from integer without a cast [-Werror=int-conversion]
+  250 |     n = minimum(tree->root);
+      |       ^
+cc1: all warnings being treated as errors
+Compilation failed
+cf2272f
