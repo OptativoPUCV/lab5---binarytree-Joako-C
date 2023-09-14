@@ -20,3 +20,9 @@ treemap.c:91:23: error: ‘curren’ undeclared (first use in this function); di
 treemap.c:91:23: note: each undeclared identifier is reported only once for each function it appears in
 Compilation failed
 892c674
+Thu 14 Sep 2023 03:05:07 AM UTC: 
+ treemap.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ tests:  5|7
+total_score: 5/70
+39d43e3

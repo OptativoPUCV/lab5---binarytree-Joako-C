@@ -88,9 +88,9 @@ Pair* searchTreeMap(TreeMap* tree, void* key) {
         if (comparison == 0) {
             return current->pair;
         } else if (comparison < 0) {
-            current = curren->left;
+            current = current->left;
         } else {
-            current = curren->right;
+            current = current->right;
         }
     }
   
