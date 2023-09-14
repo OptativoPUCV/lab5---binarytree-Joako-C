@@ -224,9 +224,11 @@ Pair * upperBound(TreeMap * tree, void* key) {
         int comparison = tree->lower_than(key, current->pair->key);
 
         if (comparison < 0) {
+            // El valor actual es mayor que el valor buscado.
             upper_bound_node = current;
             current = current->left;
         } else {
+            // El valor actual es menor o igual al valor buscado.
             current = current->right;
         }
     }
@@ -235,8 +237,10 @@ Pair * upperBound(TreeMap * tree, void* key) {
         return upper_bound_node->pair;
     }
 
+    // Si no se encuentra ningún elemento mayor, devolvemos NULL.
     return NULL;
 }
+
 
 
 Pair * firstTreeMap(TreeMap * tree) {
