@@ -57,41 +57,38 @@ void insertTreeMap(TreeMap* tree, void* key, void* value) {
     if (new_node == NULL) return;
 
     if (tree->root == NULL) {
-        tree->root = tree->current = new_node;
+        tree->root = new_node;
         return;
     }
 
     TreeNode* current = tree->root;
-    TreeNode* parent = NULL;
 
     while (current != NULL) {
-        parent = current;
         int comparison = tree->lower_than(key, current->pair->key);
 
         if (comparison == 0) {
-            current->pair->value = value;
+            // Key already exists, update the value if needed.
             free(new_node->pair->key);
             free(new_node->pair->value);
             free(new_node->pair);
             free(new_node);
             return;
         } else if (comparison < 0) {
+            if (current->left == NULL) {
+                current->left = new_node;
+                new_node->parent = current;
+                return;
+            }
             current = current->left;
         } else {
+            if (current->right == NULL) {
+                current->right = new_node;
+                new_node->parent = current;
+                return;
+            }
             current = current->right;
         }
     }
-
-    int comparison = tree->lower_than(key, parent->pair->key);
-    if (comparison < 0) {
-        parent->left = new_node;
-        printf("Insertado a la izquierda de %d\n", *(int*)parent->pair->key); // Salida de depuración
-    } else {
-        parent->right = new_node;
-        printf("Insertado a la derecha de %d\n", *(int*)parent->pair->key); // Salida de depuración
-    }
-    new_node->parent = parent;
-    tree->current = new_node;
 }
 
 
