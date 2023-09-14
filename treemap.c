@@ -64,11 +64,10 @@ void insertTreeMap(TreeMap* tree, void* key, void* value) {
 
     TreeNode* current = tree->root;
     TreeNode* parent = NULL;
-    int comparison;
 
     while (current != NULL) {
         parent = current;
-        comparison = tree->lower_than(key, current->pair->key);
+        int comparison = tree->lower_than(key, current->pair->key);
 
         if (comparison == 0) {
             // La clave ya existe, no se permite claves duplicadas.
@@ -84,7 +83,7 @@ void insertTreeMap(TreeMap* tree, void* key, void* value) {
         }
     }
 
-    if (comparison < 0) {
+    if (tree->lower_than(key, parent->pair->key) < 0) {
         parent->left = new_node;
     } else {
         parent->right = new_node;
@@ -92,11 +91,6 @@ void insertTreeMap(TreeMap* tree, void* key, void* value) {
     new_node->parent = parent;
     tree->current = new_node;
 }
-
-
-
-
-
 
 
 TreeNode* minimum(TreeNode* x) {
