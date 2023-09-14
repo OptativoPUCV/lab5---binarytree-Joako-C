@@ -67,7 +67,11 @@ void insertTreeMap(TreeMap* tree, void* key, void* value) {
         int comparison = tree->lower_than(key, current->pair->key);
 
         if (comparison == 0) {
+            // El nodo ya existe con la misma clave, actualizamos el valor.
             current->pair->value = value;
+            free(new_node->pair->key);
+            free(new_node->pair->value);
+            free(new_node->pair);
             free(new_node);
             return;
         } else if (comparison < 0) {
@@ -91,6 +95,7 @@ void insertTreeMap(TreeMap* tree, void* key, void* value) {
 }
 
 
+
 TreeNode* minimum(TreeNode* x) {
     if (x == NULL) return NULL;
 
@@ -107,7 +112,6 @@ void removeNode(TreeMap * tree, TreeNode* node) {
 
     TreeNode* parent = node->parent;
 
-    // Caso 1: El nodo es un nodo hoja (no tiene hijos).
     if (node->left == NULL && node->right == NULL) {
         if (parent != NULL) {
             if (parent->left == node) {
@@ -124,7 +128,6 @@ void removeNode(TreeMap * tree, TreeNode* node) {
         free(node);
     }
 
-    // Caso 2: El nodo tiene un hijo.
     else if (node->left == NULL || node->right == NULL) {
         TreeNode* child = (node->left != NULL) ? node->left : node->right;
 
@@ -146,15 +149,12 @@ void removeNode(TreeMap * tree, TreeNode* node) {
         free(node);
     }
 
-    // Caso 3: El nodo tiene dos hijos.
     else {
         TreeNode* successor = minimum(node->right);
 
-        // Reemplazar el contenido del nodo con sucesor.
         node->pair->key = successor->pair->key;
         node->pair->value = successor->pair->value;
 
-        // Eliminar el sucesor.
         removeNode(tree, successor);
     }
 }
