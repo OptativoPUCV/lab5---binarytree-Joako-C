@@ -67,6 +67,8 @@ void insertTreeMap(TreeMap* tree, void* key, void* value) {
         int comparison = tree->lower_than(key, current->pair->key);
 
         if (comparison == 0) {
+            // La clave ya existe, actualizamos el valor.
+            current->pair->value = value;
             free(new_node->pair->key);
             free(new_node->pair->value);
             free(new_node->pair);
@@ -91,6 +93,7 @@ void insertTreeMap(TreeMap* tree, void* key, void* value) {
         }
     }
 }
+
 
 
 TreeNode* minimum(TreeNode* x) {
@@ -189,7 +192,6 @@ Pair* searchTreeMap(TreeMap* tree, void* key) {
     // No se encontró la clave.
     return NULL;
 }
-
 
 
 Pair * upperBound(TreeMap * tree, void* key) {
