@@ -105,67 +105,74 @@ TreeNode* minimum(TreeNode* x) {
 void removeNode(TreeMap * tree, TreeNode* node) {
     if (tree == NULL || node == NULL || tree->root == NULL) return;
 
-    // Caso 1: El nodo es un nodo hoja (no tiene hijos).
-    if (node->left == NULL && node->right == NULL) {
-        if (node->parent != NULL) {
-            if (node->parent->left == node) {
-                node->parent->left = NULL;
-            } else {
-                node->parent->right = NULL;
-            }
+    // Buscar el nodo en el árbol
+    TreeNode* current = tree->root;
+    TreeNode* parent = NULL;
+
+    while (current != NULL && current != node) {
+        parent = current;
+        int comparison = tree->lower_than(node->pair->key, current->pair->key);
+        if (comparison < 0) {
+            current = current->left;
+        } else if (comparison > 0) {
+            current = current->right;
         } else {
-            // El nodo es la raíz del árbol.
-            tree->root = NULL;
+            // Encontramos el nodo
+            break;
         }
-        free(node->pair->key);
-        free(node->pair->value);
-        free(node->pair);
-        free(node);
+    }
+
+    if (current == NULL) {
+        // El nodo no fue encontrado en el árbol
+        return;
+    }
+
+    // Caso 1: El nodo es un nodo hoja (no tiene hijos).
+    if (current->left == NULL && current->right == NULL) {
+        if (parent == NULL) {
+            // El nodo es la raíz del árbol
+            tree->root = NULL;
+        } else if (parent->left == current) {
+            parent->left = NULL;
+        } else {
+            parent->right = NULL;
+        }
+        free(current->pair->key);
+        free(current->pair->value);
+        free(current->pair);
+        free(current);
     }
 
     // Caso 2: El nodo tiene un hijo.
-    else if (node->left == NULL || node->right == NULL) {
-        TreeNode* child = (node->left != NULL) ? node->left : node->right;
-
-        if (node->parent != NULL) {
-            if (node->parent->left == node) {
-                node->parent->left = child;
-            } else {
-                node->parent->right = child;
-            }
-            child->parent = node->parent;
-        } else {
-            // El nodo es la raíz del árbol.
+    else if (current->left == NULL || current->right == NULL) {
+        TreeNode* child = (current->left != NULL) ? current->left : current->right;
+        if (parent == NULL) {
+            // El nodo es la raíz del árbol
             tree->root = child;
-            child->parent = NULL;
+        } else if (parent->left == current) {
+            parent->left = child;
+        } else {
+            parent->right = child;
         }
-
-        free(node->pair->key);
-        free(node->pair->value);
-        free(node->pair);
-        free(node);
+        child->parent = parent;
+        free(current->pair->key);
+        free(current->pair->value);
+        free(current->pair);
+        free(current);
     }
 
     // Caso 3: El nodo tiene dos hijos.
     else {
-        TreeNode* successor = minimum(node->right);
+        TreeNode* successor = minimum(current->right);
 
-        node->pair->key = successor->pair->key;
-        node->pair->value = successor->pair->value;
+        current->pair->key = successor->pair->key;
+        current->pair->value = successor->pair->value;
 
-        // Actualiza el puntero del padre del sucesor.
-        if (successor->parent->left == successor) {
-            successor->parent->left = NULL;
-        } else {
-            successor->parent->right = NULL;
-        }
-
-        free(successor->pair->key);
-        free(successor->pair->value);
-        free(successor->pair);
-        free(successor);
+        // Eliminar el sucesor
+        removeNode(tree, successor);
     }
 }
+
 
 
 
