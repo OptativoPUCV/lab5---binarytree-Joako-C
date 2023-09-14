@@ -76,22 +76,24 @@ void insertTreeMap(TreeMap* tree, void* key, void* value) {
             free(new_node);
             return;
         } else if (comparison < 0) {
+            if (current->left == NULL) {
+                current->left = new_node;
+                new_node->parent = current;
+                tree->current = new_node;
+                return;
+            }
             current = current->left;
         } else {
+            if (current->right == NULL) {
+                current->right = new_node;
+                new_node->parent = current;
+                tree->current = new_node;
+                return;
+            }
             current = current->right;
         }
     }
-
-    int comparison = tree->lower_than(key, parent->pair->key);
-    if (comparison < 0) {
-        parent->left = new_node;
-    } else {
-        parent->right = new_node;
-    }
-    new_node->parent = parent;
-    tree->current = new_node;
 }
-
 
 
 
