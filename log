@@ -284,3 +284,15 @@ Thu 14 Sep 2023 03:54:44 AM UTC:
  tests:  15|4
 total_score: 25/70
 952f110
+Thu 14 Sep 2023 03:55:49 AM UTC: 
+ treemap.c | 20 +++++++++++++-------
+ 1 file changed, 13 insertions(+), 7 deletions(-)
+In file included from test.c:4:
+treemap.c:39:12: error: redefinition of ‘createTreeNode’
+   39 | TreeNode * createTreeNode(void* key, void * value) {
+      |            ^~~~~~~~~~~~~~
+treemap.c:29:12: note: previous definition of ‘createTreeNode’ was here
+   29 | TreeNode * createTreeNode(void* key, void * value) {
+      |            ^~~~~~~~~~~~~~
+Compilation failed
+2da8b6f

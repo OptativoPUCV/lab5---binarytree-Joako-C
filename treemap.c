@@ -36,17 +36,24 @@ TreeNode * createTreeNode(void* key, void * value) {
     return new;
 }
 
-TreeMap* createTreeMap(int (*lower_than)(void* key1, void* key2)) {
-    if (lower_than == NULL) return NULL;
-    
-    TreeMap* newTreeMap = (TreeMap*)malloc(sizeof(TreeMap));
-    if (newTreeMap == NULL) return NULL;
+TreeNode * createTreeNode(void* key, void * value) {
+    TreeNode * new_node = (TreeNode *)malloc(sizeof(TreeNode));
+    if (new_node == NULL) return NULL;
 
-    newTreeMap->root = newTreeMap->current = NULL;
-    newTreeMap->lower_than = lower_than;
+    new_node->pair = (Pair *)malloc(sizeof(Pair));
+    if (new_node->pair == NULL) {
+        free(new_node);
+        return NULL;
+    }
 
-    return newTreeMap;
+    // Realizar una copia de la clave y el valor
+    new_node->pair->key = key;
+    new_node->pair->value = value;
+
+    new_node->parent = new_node->left = new_node->right = NULL;
+    return new_node;
 }
+
 
 
 void insertTreeMap(TreeMap* tree, void* key, void* value) {
