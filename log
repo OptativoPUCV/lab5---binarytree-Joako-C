@@ -296,3 +296,9 @@ treemap.c:29:12: note: previous definition of ‘createTreeNode’ was here
       |            ^~~~~~~~~~~~~~
 Compilation failed
 2da8b6f
+Thu 14 Sep 2023 03:58:21 AM UTC: 
+ treemap.c | 39 ++++++++++++++++-----------------------
+ 1 file changed, 16 insertions(+), 23 deletions(-)
+ tests:  15|4
+total_score: 25/70
+d759f40
