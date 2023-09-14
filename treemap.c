@@ -192,25 +192,27 @@ Pair * upperBound(TreeMap * tree, void* key) {
     if (tree == NULL || tree->root == NULL || key == NULL) return NULL;
 
     TreeNode* current = tree->root;
-    TreeNode* upper_bound_node = NULL;
+    Pair* upper_bound_pair = NULL;
 
     while (current != NULL) {
         int comparison = tree->lower_than(key, current->pair->key);
 
         if (comparison <= 0) {
-            upper_bound_node = current;
+            // Actualiza el par de límite superior si encontramos un nodo con clave igual o mayor
+            upper_bound_pair = current->pair;
             current = current->left;
         } else {
             current = current->right;
         }
     }
 
-    if (upper_bound_node != NULL) {
-        return upper_bound_node->pair;
+    if (upper_bound_pair != NULL) {
+        return upper_bound_pair;
     }
 
     return NULL;
 }
+
 
 
 
