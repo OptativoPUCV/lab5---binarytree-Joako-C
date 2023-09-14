@@ -64,7 +64,7 @@ void insertTreeMap(TreeMap* tree, void* key, void* value) {
         int comparison = tree->lower_than(key, current->pair->key);
 
         if (comparison == 0) {
-            current->pair->value = value;
+            // La clave ya existe, no insertamos nada y liberamos memoria.
             free(new_node->pair->key);
             free(new_node->pair->value);
             free(new_node->pair);
@@ -77,6 +77,7 @@ void insertTreeMap(TreeMap* tree, void* key, void* value) {
         }
     }
 
+    // Si llegamos aquí, la clave no existe en el árbol.
     if (parent == NULL) {
         tree->root = new_node;
     } else {
