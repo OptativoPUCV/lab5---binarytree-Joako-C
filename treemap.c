@@ -247,31 +247,27 @@ Pair * nextTreeMap(TreeMap * tree) {
 
     TreeNode* current = tree->current;
 
-    // Si el nodo tiene un hijo derecho, el siguiente será el mínimo en ese subárbol derecho.
     if (current->right != NULL) {
         current = current->right;
         while (current->left != NULL) {
             current = current->left;
         }
-        tree->current = current; // Actualiza el puntero current.
+        tree->current = current;
         return current->pair;
     }
 
-    // Si no tiene hijo derecho, sube en el árbol hasta encontrar un ancestro que sea más grande.
     TreeNode* parent = current->parent;
     while (parent != NULL && current == parent->right) {
         current = parent;
         parent = parent->parent;
     }
 
-    // Si llegamos aquí, current es el primer ancestro que es más grande, o estamos en la raíz y no hay más elementos.
     if (parent != NULL) {
-        tree->current = parent; // Actualiza el puntero current.
+        tree->current = parent;
         return parent->pair;
     }
 
-    // Si no encontramos un ancestro más grande, estamos en la raíz y no hay más elementos.
-    tree->current = NULL; // No hay más elementos, actualiza current a NULL.
+    tree->current = NULL;
     return NULL;
 }
 
