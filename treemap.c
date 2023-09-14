@@ -242,20 +242,36 @@ Pair * upperBound(TreeMap * tree, void* key) {
 }
 
 
-Pair * firstTreeMap(TreeMap * tree) {
-    if (tree == NULL || tree->root == NULL) return NULL;
+Pair * nextTreeMap(TreeMap * tree) {
+    if (tree == NULL || tree->current == NULL || tree->root == NULL) return NULL;
 
-    TreeNode* current = tree->root;
+    TreeNode* current = tree->current;
 
-    // Encontrar el nodo más a la izquierda (el mínimo) en el árbol.
-    while (current->left != NULL) {
-        current = current->left;
+    // Si el nodo tiene un hijo derecho, el siguiente será el mínimo en ese subárbol derecho.
+    if (current->right != NULL) {
+        current = current->right;
+        while (current->left != NULL) {
+            current = current->left;
+        }
+        tree->current = current; // Actualiza el puntero current.
+        return current->pair;
     }
 
-    return current->pair;
-}
+    // Si no tiene hijo derecho, sube en el árbol hasta encontrar un ancestro que sea más grande.
+    TreeNode* parent = current->parent;
+    while (parent != NULL && current == parent->right) {
+        current = parent;
+        parent = parent->parent;
+    }
 
+    // Si llegamos aquí, current es el primer ancestro que es más grande, o estamos en la raíz y no hay más elementos.
+    if (parent != NULL) {
+        tree->current = parent; // Actualiza el puntero current.
+        return parent->pair;
+    }
 
-Pair * nextTreeMap(TreeMap * tree) {
+    // Si no encontramos un ancestro más grande, estamos en la raíz y no hay más elementos.
+    tree->current = NULL; // No hay más elementos, actualiza current a NULL.
     return NULL;
 }
+

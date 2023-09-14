@@ -110,3 +110,13 @@ Thu 14 Sep 2023 03:23:23 AM UTC:
  tests:  10|5
 total_score: 10/70
 0a3a586
+Thu 14 Sep 2023 03:24:07 AM UTC: 
+ treemap.c | 28 ++++++++++++++++++++++------
+ 1 file changed, 22 insertions(+), 6 deletions(-)
+/nix/store/v8imx1nvyz0hgvx9cbcmh6gp4ngw3ffj-binutils-2.35.1/bin/ld: /tmp/ccGRv6nf.o: in function `first_test1':
+test.c:(.text+0xf25): undefined reference to `firstTreeMap'
+/nix/store/v8imx1nvyz0hgvx9cbcmh6gp4ngw3ffj-binutils-2.35.1/bin/ld: /tmp/ccGRv6nf.o: in function `first_test2':
+test.c:(.text+0xfd8): undefined reference to `firstTreeMap'
+collect2: error: ld returned 1 exit status
+Compilation failed
+9ec9c35
