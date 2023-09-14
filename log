@@ -8,3 +8,15 @@ Thu 14 Sep 2023 03:02:39 AM UTC:
  tests:  4|7
 total_score: 5/70
 9695c0c
+Thu 14 Sep 2023 03:04:59 AM UTC: 
+ treemap.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+In file included from test.c:4:
+treemap.c: In function ‘searchTreeMap’:
+treemap.c:91:23: error: ‘curren’ undeclared (first use in this function); did you mean ‘current’?
+   91 |             current = curren->left;
+      |                       ^~~~~~
+      |                       current
+treemap.c:91:23: note: each undeclared identifier is reported only once for each function it appears in
+Compilation failed
+892c674
