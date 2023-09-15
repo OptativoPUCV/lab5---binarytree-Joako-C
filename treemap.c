@@ -154,7 +154,7 @@ void eraseTreeMap(TreeMap * tree, void* key){
 
 
 Pair* searchTreeMap(TreeMap* tree, void* key) {
-    if (tree == NULL || key == NULL || tree->root == NULL) return NULL;
+    if (tree == NULL || tree->root == NULL || key == NULL) return NULL;
 
     TreeNode* current = tree->root;
 
@@ -162,6 +162,7 @@ Pair* searchTreeMap(TreeMap* tree, void* key) {
         int comparison = tree->lower_than(key, current->pair->key);
 
         if (comparison == 0) {
+            // Se encontró el elemento, devuelve el par actual.
             tree->current = current;
             return current->pair;
         } else if (comparison < 0) {
@@ -171,8 +172,10 @@ Pair* searchTreeMap(TreeMap* tree, void* key) {
         }
     }
 
+    // No se encontró el elemento.
     return NULL;
 }
+
 
 
 Pair * upperBound(TreeMap * tree, void* key) {
