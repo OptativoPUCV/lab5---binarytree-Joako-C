@@ -154,23 +154,23 @@ void eraseTreeMap(TreeMap * tree, void* key){
 
 
 Pair* searchTreeMap(TreeMap* tree, void* key) {
-    if (tree == NULL || tree->root == NULL || key == NULL) return NULL;
+  if (tree == NULL || tree->root == NULL || key == NULL) return NULL;
 
-    TreeNode* current = tree->root;
-    Pair* result = NULL;
+  TreeNode* current = tree->root;
+  Pair* result = NULL;
 
-    while (current != NULL) {
-        int comparison = tree->lower_than(key, current->pair->key);
+  while (current != NULL) {
+    int comparison = tree->lower_than(key, current->pair->key);
 
-        if (comparison <= 0) {
-            // Se encontró un elemento igual o menor, actualiza el resultado.
-            result = current->pair;
-            tree->current = current;
-            current = current->left;  // Explora los valores menores.
-        } else {
-            current = current->right;  // Explora los valores mayores.
-        }
+    if (comparison <= 0) {
+      result = current->pair;
+      tree->current = current;
+      current = current->left;  // Explora los valores menores.
+    } 
+    else {
+      current = current->right;  // Explora los valores mayores.
     }
+  }
 
     return result;
 }
