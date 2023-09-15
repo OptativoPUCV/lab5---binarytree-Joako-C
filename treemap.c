@@ -198,7 +198,6 @@ Pair * upperBound(TreeMap * tree, void* key) {
         int comparison = tree->lower_than(key, current->pair->key);
 
         if (comparison <= 0) {
-            // Actualiza el par de límite superior si encontramos un nodo con clave igual o mayor
             upper_bound_pair = current->pair;
             current = current->left;
         } else {
