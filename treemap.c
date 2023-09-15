@@ -157,24 +157,24 @@ Pair* searchTreeMap(TreeMap* tree, void* key) {
     if (tree == NULL || tree->root == NULL || key == NULL) return NULL;
 
     TreeNode* current = tree->root;
+    Pair* result = NULL;
 
     while (current != NULL) {
         int comparison = tree->lower_than(key, current->pair->key);
 
-        if (comparison == 0) {
-            // Se encontró el elemento, devuelve el par actual.
+        if (comparison <= 0) {
+            // Se encontró un elemento igual o menor, actualiza el resultado.
+            result = current->pair;
             tree->current = current;
-            return current->pair;
-        } else if (comparison < 0) {
-            current = current->left;
+            current = current->left;  // Explora los valores menores.
         } else {
-            current = current->right;
+            current = current->right;  // Explora los valores mayores.
         }
     }
 
-    // No se encontró el elemento.
-    return NULL;
+    return result;
 }
+
 
 
 
