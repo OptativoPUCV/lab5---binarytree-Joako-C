@@ -91,28 +91,26 @@ TreeNode* minimum(TreeNode* x) {
 
 
 void removeNode(TreeMap * tree, TreeNode* node) {
-    if (tree == NULL || node == NULL || tree->root == NULL) return;
+  if (tree == NULL || node == NULL || tree->root == NULL) return;
 
-    TreeNode* parent = node->parent;
+  TreeNode* parent = node->parent;
 
-    // Caso 1: El nodo a eliminar no tiene hijos.
-    if (node->left == NULL && node->right == NULL) {
-        if (parent != NULL) {
-            if (parent->left == node) {
-                parent->left = NULL;
-            } else {
-                parent->right = NULL;
-            }
-        } else {
-            // Si el nodo es la raíz del árbol, actualiza la raíz a NULL.
-            if (tree->root == node) {
-                tree->root = NULL;
+  if (node->left == NULL && node->right == NULL) {
+    if (parent != NULL) {
+        if (parent->left == node) {
+          parent->left = NULL;
+        } 
+        else {
+          parent->right = NULL;
+        }
+    } else {
+      if (tree->root == node) {
+        tree->root = NULL;
             }
         }
         free(node);
     }
 
-    // Caso 2: El nodo a eliminar tiene un solo hijo.
     else if (node->left == NULL || node->right == NULL) {
         TreeNode* child = (node->left != NULL) ? node->left : node->right;
 
@@ -178,25 +176,30 @@ Pair * searchTreeMap(TreeMap * tree, void* key){
 }
 
 
-Pair * upperBound(TreeMap * tree, void* key) {
-  if (tree == NULL || tree->root == NULL || key == NULL) return NULL;
-
+Pair* upperBound(TreeMap * tree, void* key) {
   TreeNode* current = tree->root;
-  Pair* upper_bound_pair = NULL;
+  TreeNode* ubNode = NULL;
 
-  while (current != NULL) {
-    int comparison = tree->lower_than(key, current->pair->key);
-
-    if (comparison <= 0) {
-      upper_bound_pair = current->pair;
+  while (current != NULL) 
+  {
+    if (is_equal(tree, current->pair->key, key)) 
+    {
+      return current->pair;
+    } else if (tree->lower_than(key, current->pair->key)) {
+      ubNode = current;
       current = current->left;
-    } 
-    else {
+    } else {
       current = current->right;
     }
   }
 
-    return upper_bound_pair;
+  if (ubNode == NULL) 
+  {
+    return NULL;
+  } else {
+      return ubNode->pair;
+  }
+
 }
 
 
