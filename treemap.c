@@ -91,56 +91,57 @@ TreeNode* minimum(TreeNode* x) {
 
 
 void removeNode(TreeMap * tree, TreeNode* node) {
-  if (tree == NULL || node == NULL || tree->root == NULL) return;
+    if (tree == NULL || node == NULL || tree->root == NULL) return;
 
-  TreeNode* parent = node->parent;
+    TreeNode* parent = node->parent;
 
-  if (node->left == NULL && node->right == NULL) {
-    if (parent != NULL) {
-      if (parent->left == node) {
-        parent->left = NULL;
-      } 
-      else {
-        parent->right = NULL;
-      }
-    } 
-    else {
-      tree->root = NULL;
+    if (node->left == NULL && node->right == NULL) {
+        if (parent != NULL) {
+            if (parent->left == node) {
+                parent->left = NULL;
+            } else {
+                parent->right = NULL;
+            }
+        } else {
+            // Si el nodo es la raíz del árbol, actualiza la raíz a NULL.
+            tree->root = NULL;
+        }
+        free(node->pair->key);
+        free(node->pair->value);
+        free(node->pair);
+        free(node);
     }
-    free(node->pair->key);
-    free(node->pair->value);
-    free(node->pair);
-    free(node);
-  }
 
-  else if (node->left == NULL || node->right == NULL) {
-    TreeNode* child = (node->left != NULL) ? node->left : node->right;
-    if (parent != NULL) {
-      if (parent->left == node) {
-        parent->left = child;
-      } 
-      else {
-        parent->right = child;
-      }
-      child->parent = parent;
-    } 
-    else {
-      tree->root = child;
-      child->parent = NULL;
+    else if (node->left == NULL || node->right == NULL) {
+        TreeNode* child = (node->left != NULL) ? node->left : node->right;
+
+        if (parent != NULL) {
+            if (parent->left == node) {
+                parent->left = child;
+            } else {
+                parent->right = child;
+            }
+            child->parent = parent;
+        } else {
+            // Si el nodo es la raíz del árbol, actualiza la raíz al hijo.
+            tree->root = child;
+            child->parent = NULL;
+        }
+
+        free(node->pair->key);
+        free(node->pair->value);
+        free(node->pair);
+        free(node);
     }
-    free(node->pair->key);
-    free(node->pair->value);
-    free(node->pair);
-    free(node);
-  }
 
-  else {
-    TreeNode* successor = minimum(node->right);
-    node->pair->key = successor->pair->key;
-    node->pair->value = successor->pair->value;
+    else {
+        TreeNode* successor = minimum(node->right);
 
-    removeNode(tree, successor);
-  }
+        node->pair->key = successor->pair->key;
+        node->pair->value = successor->pair->value;
+
+        removeNode(tree, successor);
+    }
 }
 
 
