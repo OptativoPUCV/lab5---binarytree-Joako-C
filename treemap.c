@@ -111,37 +111,31 @@ void removeNode(TreeMap * tree, TreeNode* node) {
         free(node);
     }
 
-    else if (node->left == NULL || node->right == NULL) {
-        TreeNode* child = (node->left != NULL) ? node->left : node->right;
-
-        if (parent != NULL) {
-            if (parent->left == node) {
-                parent->left = child;
-            } else {
-                parent->right = child;
-            }
-            child->parent = parent;
-        } else {
-            // Si el nodo es la raíz del árbol, actualiza la raíz al hijo.
-            if (tree->root == node) {
-                tree->root = child;
-            }
-            child->parent = NULL;
-        }
-
-        free(node);
-    }
-
-    // Caso 3: El nodo a eliminar tiene dos hijos.
+  else if (node->left == NULL || node->right == NULL) {
+    TreeNode* child = (node->left != NULL) ? node->left : node->right;
+    if (parent != NULL) {
+      if (parent->left == node) {
+        parent->left = child;
+      } 
+      else {
+        parent->right = child;
+      }
+      child->parent = parent;
+    } 
     else {
-        TreeNode* successor = minimum(node->right);
-
-        // Copia el valor del sucesor al nodo actual.
-        node->pair->key = successor->pair->key;
-        node->pair->value = successor->pair->value;
-
-        // Llamamos a removeNode recursivamente para eliminar el sucesor.
-        removeNode(tree, successor);
+      if (tree->root == node) {
+        tree->root = child;
+      }
+      child->parent = NULL;
+    }
+    free(node);
+    }
+    
+    else {
+      TreeNode* successor = minimum(node->right);
+      node->pair->key = successor->pair->key;
+      node->pair->value = successor->pair->value;
+      removeNode(tree, successor);
     }
 }
 
