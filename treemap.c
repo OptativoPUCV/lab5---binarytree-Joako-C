@@ -179,28 +179,26 @@ Pair* searchTreeMap(TreeMap* tree, void* key) {
 
 
 Pair * upperBound(TreeMap * tree, void* key) {
-    if (tree == NULL || tree->root == NULL || key == NULL) return NULL;
+  if (tree == NULL || tree->root == NULL || key == NULL) return NULL;
 
-    TreeNode* current = tree->root;
-    Pair* upper_bound_pair = NULL;
+  TreeNode* current = tree->root;
+  Pair* upper_bound_pair = NULL;
 
-    while (current != NULL) {
-        int comparison = tree->lower_than(key, current->pair->key);
+  while (current != NULL) {
+    int comparison = tree->lower_than(key, current->pair->key);
 
-        if (comparison <= 0) {
-            upper_bound_pair = current->pair;
-            current = current->left;
-        } else {
-            current = current->right;
-        }
+    if (comparison <= 0) {
+      upper_bound_pair = current->pair;
+      current = current->left;
+    } 
+    else {
+      current = current->right;  // Explora los valores mayores.
     }
+  }
 
-    if (upper_bound_pair != NULL) {
-        return upper_bound_pair;
-    }
-
-    return NULL;
+    return upper_bound_pair;
 }
+
 
 
 
